@@ -10,7 +10,7 @@ COPY package*.json /music-player-project
 
 RUN npm ci
 
-COPY . /app
+COPY . /music-player-project
 
 EXPOSE 3000
 
