@@ -25,7 +25,9 @@ const Form = ({ submit, submitMessage, additionalLink, fields }: Props) => {
       {fields.map((field, key) => (
         <label key={key} className={styles.form__group}>
           <input
-            className={styles.form__input}
+            className={`${styles.form__input} ${
+              errors[field.type] ? styles.form__input__error : ""
+            }`}
             type={field.type}
             placeholder={field.label}
             {...register(field.name, field.rules)}
@@ -46,7 +48,7 @@ const Form = ({ submit, submitMessage, additionalLink, fields }: Props) => {
         </section>
       )}
       <button className={"button"} type={"submit"}>
-        {submitMessage}
+        {isSubmitting ? "subbiting" : submitMessage}
       </button>
     </form>
   );

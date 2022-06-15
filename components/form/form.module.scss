@@ -29,7 +29,14 @@
     padding: 18px 16px;
     border-radius: 3px;
     border: 1px solid colors.$lightGrey;
+    outline-color: colors.$lightGrey;
     margin-bottom: 8px;
     background-color: colors.$white;
+    transition: border-color 0.3s, outline-color 0.3s;
+
+    &__error {
+      border-color: colors.$red;
+      outline-color: colors.$red;
+    }
   }
 }

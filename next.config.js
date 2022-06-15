@@ -8,6 +8,9 @@ const nextConfig = {
     };
     return config;
   },
+  experimental: {
+    styledComponents: true,
+  },
 };
 
 module.exports = nextConfig;

@@ -1,6 +1,6 @@
 import { RegisterOptions } from "react-hook-form";
 
-export type Submit = (data: Record<string, string>) => void;
+export type Submit = (data: Record<string, string>) => Promise<void>;
 
 export type Fields = Array<{
   name: string;
