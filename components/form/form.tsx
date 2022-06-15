@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import Errors from "@components/errors/errors";
 import styles from "./form.module.scss";
 import Link from "next/link";
+import Spinner from "@components/spinner/spinner";
 
 interface Props {
   submit: Submit;
@@ -48,7 +49,7 @@ const Form = ({ submit, submitMessage, additionalLink, fields }: Props) => {
         </section>
       )}
       <button className={"button"} type={"submit"}>
-        {isSubmitting ? "subbiting" : submitMessage}
+        {isSubmitting ? <Spinner /> : submitMessage}
       </button>
     </form>
   );

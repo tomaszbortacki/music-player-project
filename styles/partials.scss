@@ -1,11 +1,12 @@
 @use "./colors" as colors;
 
 .button {
+  position: relative;
   background-color: colors.$green;
   border: none;
   border-radius: 3px;
   text-align: center;
-  min-height: 56px;
+  min-height: 58px;
   padding: 18px;
   color: colors.$white;
   font-size: 16px;
