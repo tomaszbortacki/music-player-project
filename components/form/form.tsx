@@ -4,6 +4,8 @@ import Errors from "@components/errors/errors";
 import styles from "./form.module.scss";
 import Link from "next/link";
 import Spinner from "@components/spinner/spinner";
+import { useEffect, useState } from "react";
+import { DICTIONARY } from "@helpers/messages";
 
 interface Props {
   submit: Submit;
@@ -16,14 +18,34 @@ const Form = ({ submit, submitMessage, additionalLink, fields }: Props) => {
   const {
     handleSubmit,
     register,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm();
+  const [formFields, setFormFields] = useState<Fields>([]);
 
-  if (!fields.length) return null;
+  useEffect(() => {
+    setFormFields(
+      fields.map((field) => {
+        if (field.name === "rpassword") {
+          field.rules = {
+            ...field.rules,
+            validate: (value) =>
+              watch("password") !== value
+                ? DICTIONARY.REPEAT_PASSWORD
+                : undefined,
+          };
+        }
+
+        return field;
+      })
+    );
+  }, [fields, watch]);
+
+  if (!formFields.length) return null;
 
   return (
     <form onSubmit={handleSubmit(submit)} className={styles.form}>
-      {fields.map((field, key) => (
+      {formFields.map((field, key) => (
         <label key={key} className={styles.form__group}>
           <input
             className={`${styles.form__input} ${
@@ -33,7 +55,7 @@ const Form = ({ submit, submitMessage, additionalLink, fields }: Props) => {
             placeholder={field.label}
             {...register(field.name, field.rules)}
           />
-          <Errors error={errors[field.type]} />
+          <Errors error={errors[field.name]} />
         </label>
       ))}
       {additionalLink && (

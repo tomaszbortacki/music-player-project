@@ -2,7 +2,7 @@ import { AdditionalLink, Fields } from "@models/form-model";
 import { DICTIONARY } from "@helpers/messages";
 import { EMAIL_PATTERN } from "@helpers/patterns";
 
-export const LOGIN_FIELDS: Fields = [
+export const REGISTRATION_FIELDS: Fields = [
   {
     label: "E-mail",
     name: "email",
@@ -30,9 +30,24 @@ export const LOGIN_FIELDS: Fields = [
       },
     },
   },
+  {
+    label: "Repeat password",
+    name: "rpassword",
+    type: "password",
+    rules: {
+      required: {
+        value: true,
+        message: DICTIONARY.REQUIRED,
+      },
+      minLength: {
+        value: 8,
+        message: DICTIONARY.MIN_LENGTH,
+      },
+    },
+  },
 ];
 
 export const ADDITIONAL_LINK: AdditionalLink = {
-  link: "/registration",
-  title: "Create a new account",
+  link: "/login",
+  title: "Already have an account? Log in",
 };
