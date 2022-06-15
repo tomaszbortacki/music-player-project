@@ -1,0 +1,15 @@
+@use "@styles/colors" as colors;
+
+.button {
+  background-color: colors.$green;
+  border: none;
+  border-radius: 3px;
+  text-align: center;
+  min-height: 56px;
+  padding: 18px;
+  color: colors.$white;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 22px;
+  cursor: pointer;
+}

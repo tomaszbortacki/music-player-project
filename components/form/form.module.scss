@@ -1,0 +1,35 @@
+@use "@styles/colors" as colors;
+
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &__group {
+    @extend .form;
+    margin-bottom: 14px;
+  }
+
+  &__additional {
+    text-align: right;
+    margin-top: -8px;
+    margin-bottom: 22px;
+
+    &__link {
+      text-decoration: underline;
+      font-size: 13px;
+      line-height: 18px;
+      color: colors.$dark;
+    }
+  }
+
+  &__input {
+    height: 56px;
+    font-size: 16px;
+    line-height: 22px;
+    padding: 18px 16px;
+    border-radius: 3px;
+    border: 1px solid colors.$lightGrey;
+    margin-bottom: 8px;
+    background-color: colors.$white;
+  }
+}
