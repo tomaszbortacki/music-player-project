@@ -5,14 +5,23 @@ import CenterWrapper from "@components/centerWrapper/centerWrapper";
 import Header from "@components/header/header";
 import Logo from "@components/logo/logo";
 import { Container } from "react-bootstrap";
+import { logIn } from "@database/endpoints";
+import { errorHandler } from "@helpers/error-handler";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
+import { GetServerSideProps } from "next";
+import userExistsRedirect from "@helpers/user-exists-redirect";
 
 const Login = () => {
+  const router = useRouter();
+
   const submit: Submit = (data) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 3000);
-    });
+    return logIn(data)
+      .then(async (message) => {
+        toast.success(message);
+        await router.push("/");
+      })
+      .catch(errorHandler);
   };
 
   return (
@@ -32,5 +41,7 @@ const Login = () => {
     </>
   );
 };
+
+export const getServerSideProps: GetServerSideProps = userExistsRedirect;
 
 export default Login;

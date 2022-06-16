@@ -9,4 +9,6 @@ export const DICTIONARY = {
   REPEAT_PASSWORD: "Your passwords do no match",
   BASIC_ERROR: "Something went wrong",
   SUPPORTS: supportMessage,
+  EMAIL_PASSWORD: "Email or password do not match",
+  WELCOME: "Welcome back ",
 };

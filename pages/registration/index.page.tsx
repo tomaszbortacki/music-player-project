@@ -9,6 +9,8 @@ import { signUp } from "@database/endpoints";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { errorHandler } from "@helpers/error-handler";
+import { GetServerSideProps } from "next";
+import userExistsRedirect from "@helpers/user-exists-redirect";
 
 const Registration = () => {
   const router = useRouter();
@@ -39,5 +41,7 @@ const Registration = () => {
     </>
   );
 };
+
+export const getServerSideProps: GetServerSideProps = userExistsRedirect;
 
 export default Registration;
