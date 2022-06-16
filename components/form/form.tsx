@@ -5,7 +5,7 @@ import styles from "./form.module.scss";
 import Link from "next/link";
 import Spinner from "@components/spinner/spinner";
 import { useEffect, useState } from "react";
-import { DICTIONARY } from "@helpers/messages";
+import { customRules } from "@components/form/helpers";
 
 interface Props {
   submit: Submit;
@@ -23,23 +23,7 @@ const Form = ({ submit, submitMessage, additionalLink, fields }: Props) => {
   } = useForm();
   const [formFields, setFormFields] = useState<Fields>([]);
 
-  useEffect(() => {
-    setFormFields(
-      fields.map((field) => {
-        if (field.name === "rpassword") {
-          field.rules = {
-            ...field.rules,
-            validate: (value) =>
-              watch("password") !== value
-                ? DICTIONARY.REPEAT_PASSWORD
-                : undefined,
-          };
-        }
-
-        return field;
-      })
-    );
-  }, [fields, watch]);
+  useEffect(() => customRules(fields, setFormFields, watch), [fields, watch]);
 
   if (!formFields.length) return null;
 
@@ -70,7 +54,7 @@ const Form = ({ submit, submitMessage, additionalLink, fields }: Props) => {
           </Link>
         </section>
       )}
-      <button className={"button"} type={"submit"}>
+      <button className={"button"} type={"submit"} disabled={isSubmitting}>
         {isSubmitting ? <Spinner /> : submitMessage}
       </button>
     </form>

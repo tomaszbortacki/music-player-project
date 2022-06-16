@@ -1,9 +1,13 @@
 version: '3.1'
 
+volumes:
+  postgres_data:
+    driver: local
+
 services:
   db:
     container_name: postgresql_db
-    image: postgres
+    image: postgres:14
     restart: always
     environment:
       POSTGRES_USER: root
@@ -12,20 +16,12 @@ services:
     ports:
       - "5432:5432"
 
-  pgadmin:
-    container_name: pgadmin4
-    image: dpage/pgadmin4
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: root@root.com
-      PGADMIN_DEFAULT_PASSWORD: root
-    ports:
-      - "5050:80"
-
   page:
     container_name: next_js
     stdin_open: true
     restart: always
+    depends_on:
+      - db
     build:
       context: .
       dockerfile: Dockerfile

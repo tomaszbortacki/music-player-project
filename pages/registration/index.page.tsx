@@ -7,14 +7,18 @@ import Logo from "@components/logo/logo";
 import { Container } from "react-bootstrap";
 import { signUp } from "@database/endpoints";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 const Registration = () => {
+  const router = useRouter();
+
   const submit: Submit = (data) => {
     const { rpassword, ...signUpData } = data;
 
     return signUp(signUpData)
-      .then((data) => {
-        return undefined;
+      .then(async (message) => {
+        toast.success(message);
+        await router.push("/login");
       })
       .catch(({ response: { data } }) => {
         toast.error(data);

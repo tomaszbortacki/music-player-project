@@ -1,22 +1,34 @@
-import { Client } from "pg";
+import { DataTypes, Sequelize } from "sequelize";
 
-type Request = (query: string) => Promise<any>;
+const sequelize = new Sequelize(
+  `postgresql://${process.env.PG_USER}:${process.env.PG_PASSWORD}@db/${process.env.PG_DATABASE}`
+);
 
-const client = new Client({
-  host: process.env.PG_HOST,
-  port: (process.env?.PG_PORT as unknown as number) || 5432,
-  database: process.env.PG_DATABASE,
-  user: process.env.PG_USER,
-  password: process.env.PG_PASSWORD,
-});
-
-const request: Request = async (query) => {
-  await client.connect();
-
-  return client.query(query, (err, res) => {
-    client.end();
-    return res;
-  });
-};
-
-export default request;
+export const User = sequelize.define(
+  "user",
+  {
+    id_user: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    email: DataTypes.STRING,
+    password: DataTypes.STRING,
+    permission: DataTypes.INTEGER,
+    firstname: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    lastname: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    birthday: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+  },
+  {
+    schema: "public",
+  }
+);
