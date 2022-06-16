@@ -13,4 +13,9 @@
   font-weight: 700;
   line-height: 22px;
   cursor: pointer;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: inset 0 5px 20px darken(colors.$green, 5%);
+  }
 }

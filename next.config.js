@@ -8,9 +8,10 @@ const nextConfig = {
     };
     return config;
   },
-  experimental: {
+  compiler: {
     styledComponents: true,
   },
+  pageExtensions: ["page.tsx", "endpoint.ts"],
 };
 
 module.exports = nextConfig;

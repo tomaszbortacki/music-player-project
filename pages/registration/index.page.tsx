@@ -5,14 +5,20 @@ import CenterWrapper from "@components/centerWrapper/centerWrapper";
 import Header from "@components/header/header";
 import Logo from "@components/logo/logo";
 import { Container } from "react-bootstrap";
+import { signUp } from "@database/endpoints";
+import { toast } from "react-toastify";
 
 const Registration = () => {
   const submit: Submit = (data) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 3000);
-    });
+    const { rpassword, ...signUpData } = data;
+
+    return signUp(signUpData)
+      .then((data) => {
+        return undefined;
+      })
+      .catch(({ response: { data } }) => {
+        toast.error(data);
+      });
   };
 
   return (
