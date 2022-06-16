@@ -4,6 +4,7 @@ import { hash } from "bcryptjs";
 import { PERMISSIONS } from "@helpers/permissions-enum";
 import { DICTIONARY } from "@helpers/messages";
 import { HttpRequestTypes } from "@helpers/http-request-types";
+import { v4 } from "uuid";
 
 export default async function handler(
   req: NextApiRequest,
@@ -33,6 +34,7 @@ export default async function handler(
       const newPassword = await hash(password, 10);
 
       await User.create({
+        id_user: v4(),
         email,
         password: newPassword,
         permission: PERMISSIONS.USER,
