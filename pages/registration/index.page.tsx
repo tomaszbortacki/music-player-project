@@ -14,9 +14,7 @@ const Registration = () => {
   const router = useRouter();
 
   const submit: Submit = (data) => {
-    const { rpassword, ...signUpData } = data;
-
-    return signUp(signUpData)
+    return signUp(data)
       .then(async (message) => {
         toast.success(message);
         await router.push("/login");
