@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import userExistsRedirect from "@helpers/user-exists-redirect";
+import CustomHeader from "@components/customHeader/customHeader";
 
 const Login = () => {
   const router = useRouter();
@@ -25,7 +26,7 @@ const Login = () => {
   };
 
   return (
-    <>
+    <CustomHeader subpage={"Login"}>
       <Logo />
       <Container fluid={true}>
         <CenterWrapper width={371}>
@@ -38,7 +39,7 @@ const Login = () => {
           />
         </CenterWrapper>
       </Container>
-    </>
+    </CustomHeader>
   );
 };
 

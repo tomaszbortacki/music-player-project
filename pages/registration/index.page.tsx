@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { errorHandler } from "@helpers/error-handler";
 import { GetServerSideProps } from "next";
 import userExistsRedirect from "@helpers/user-exists-redirect";
+import CustomHeader from "@components/customHeader/customHeader";
 
 const Registration = () => {
   const router = useRouter();
@@ -25,7 +26,7 @@ const Registration = () => {
   };
 
   return (
-    <>
+    <CustomHeader subpage={"Registration"}>
       <Logo />
       <Container fluid={true}>
         <CenterWrapper width={371}>
@@ -38,7 +39,7 @@ const Registration = () => {
           />
         </CenterWrapper>
       </Container>
-    </>
+    </CustomHeader>
   );
 };
 
