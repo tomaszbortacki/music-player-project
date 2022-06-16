@@ -8,6 +8,7 @@ import { Container } from "react-bootstrap";
 import { signUp } from "@database/endpoints";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { errorHandler } from "@helpers/error-handler";
 
 const Registration = () => {
   const router = useRouter();
@@ -20,9 +21,7 @@ const Registration = () => {
         toast.success(message);
         await router.push("/login");
       })
-      .catch(({ response: { data } }) => {
-        toast.error(data);
-      });
+      .catch(errorHandler);
   };
 
   return (
