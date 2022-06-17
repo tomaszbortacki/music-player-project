@@ -27,7 +27,7 @@ const Registration = () => {
 
   return (
     <CustomHeader subpage={"Registration"}>
-      <Logo />
+      <Logo type={"normal"} />
       <Container fluid={true}>
         <CenterWrapper width={371}>
           <Header text={"Create an account"} placement={"center"} />

@@ -27,7 +27,7 @@ const Login = () => {
 
   return (
     <CustomHeader subpage={"Login"}>
-      <Logo />
+      <Logo type={"normal"} />
       <Container fluid={true}>
         <CenterWrapper width={371}>
           <Header text={"Log in"} placement={"center"} />

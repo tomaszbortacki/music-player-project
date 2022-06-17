@@ -2,6 +2,7 @@ import type { GetServerSideProps, NextPage } from "next";
 import { withIronSessionSsr } from "iron-session/next";
 import { sessionCookie } from "@database/sessionCookie";
 import { UserModel } from "@helpers/user-model";
+import Navigation from "@components/navigation/navigation";
 
 interface Props {
   user?: UserModel;
@@ -10,7 +11,11 @@ interface Props {
 const Home: NextPage<Props> = ({ user }) => {
   if (!user) return null;
 
-  return <h1>Hello {user.email}</h1>;
+  return (
+    <>
+      <Navigation id_user={user.id_user} />
+    </>
+  );
 };
 
 export const getServerSideProps: GetServerSideProps = withIronSessionSsr(

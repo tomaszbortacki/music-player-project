@@ -1,0 +1,20 @@
+.navigation {
+  box-shadow: 0 4px 4px transparentize(#D4D4D4, 0.75);
+
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+
+    a {
+      display: inline-block;
+    }
+  }
+
+  &__actions {
+    > a:not(:last-child) {
+      margin-right: 8px;
+    }
+  }
+}
