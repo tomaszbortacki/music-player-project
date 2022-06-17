@@ -8,7 +8,7 @@ interface Props {
 }
 
 type TYPE = Record<
-  string,
+  "normal" | "small",
   {
     url: string;
     width: number;
