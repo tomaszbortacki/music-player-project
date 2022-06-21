@@ -1,5 +1,10 @@
+@use "@styles/colors" as colors;
+
 .navigation {
+  position: sticky;
+  top: 0;
   box-shadow: 0 4px 4px transparentize(#D4D4D4, 0.75);
+  background-color: colors.$white;
 
   &__wrapper {
     display: flex;

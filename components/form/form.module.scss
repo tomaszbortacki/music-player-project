@@ -34,6 +34,10 @@
     background-color: colors.$white;
     transition: border-color 0.3s, outline-color 0.3s;
 
+    &:disabled {
+      opacity: 0.4;
+    }
+
     &__error {
       border-color: colors.$red;
       outline-color: colors.$red;
