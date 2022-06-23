@@ -1,6 +1,4 @@
-import { GetServerSideProps } from "next";
-import { withIronSessionSsr } from "iron-session/next";
-import { sessionCookie } from "@database/sessionCookie";
+import { withSessionSsr } from "@database/session";
 import { Col, Container, Row } from "react-bootstrap";
 import { UserModel } from "@helpers/user-model";
 import Navigation from "@components/navigation/navigation";
@@ -11,16 +9,19 @@ import { Submit } from "@models/form-model";
 import styles from "./user.module.scss";
 import Image from "next/image";
 import CustomHeader from "@components/customHeader/customHeader";
+import { PERMISSIONS } from "@helpers/permissions-enum";
 
-interface Props {
-  user: UserModel;
-}
+type Props = {
+  user?: UserModel;
+};
 
 const User = ({ user }: Props) => {
   const submit: Submit = (data) => {
     console.log(data);
     return new Promise<void>((resolve) => resolve());
   };
+
+  if (!user) return null;
 
   return (
     <CustomHeader subpage={"User Panel"}>
@@ -37,6 +38,7 @@ const User = ({ user }: Props) => {
                 submit={submit}
                 submitMessage={"Save"}
               />
+              {user.permission === PERMISSIONS.ADMIN && <h2>hello</h2>}
             </Col>
             <Col sm={{ span: 12 }} md={{ span: 6 }} xl={{ span: 8 }}>
               <section className={styles.user__image}>
@@ -55,11 +57,11 @@ const User = ({ user }: Props) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = withIronSessionSsr(
+export const getServerSideProps = withSessionSsr<Props>(
   async ({ req, res, query }) => {
     const user = req.session.user;
 
-    if (!user && query.id !== user.id_user) {
+    if (!user || query.id !== user.id_user) {
       res.setHeader("location", "/login");
       res.statusCode = 302;
       res.end();
@@ -69,8 +71,7 @@ export const getServerSideProps: GetServerSideProps = withIronSessionSsr(
     return {
       props: { user },
     };
-  },
-  sessionCookie
+  }
 );
 
 export default User;

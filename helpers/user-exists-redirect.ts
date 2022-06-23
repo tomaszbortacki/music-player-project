@@ -1,8 +1,6 @@
-import { sessionCookie } from "@database/sessionCookie";
-import { withIronSessionSsr } from "iron-session/next";
+import { withSessionSsr } from "@database/session";
 
-const userExistsRedirect = withIronSessionSsr(async ({ req, res }) => {
-  // @ts-ignore
+const userExistsRedirect = withSessionSsr(async ({ req, res }) => {
   const user = req.session.user;
 
   if (user) {
@@ -14,6 +12,6 @@ const userExistsRedirect = withIronSessionSsr(async ({ req, res }) => {
   return {
     props: {},
   };
-}, sessionCookie);
+});
 
 export default userExistsRedirect;

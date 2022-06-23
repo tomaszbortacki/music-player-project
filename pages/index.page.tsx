@@ -1,12 +1,11 @@
-import type { GetServerSideProps, NextPage } from "next";
-import { withIronSessionSsr } from "iron-session/next";
-import { sessionCookie } from "@database/sessionCookie";
+import type { NextPage } from "next";
+import { withSessionSsr } from "@database/session";
 import { UserModel } from "@helpers/user-model";
 import Navigation from "@components/navigation/navigation";
 
-interface Props {
+type Props = {
   user?: UserModel;
-}
+};
 
 const Home: NextPage<Props> = ({ user }) => {
   if (!user) return null;
@@ -18,9 +17,8 @@ const Home: NextPage<Props> = ({ user }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = withIronSessionSsr(
+export const getServerSideProps = withSessionSsr<Props>(
   async ({ req, res }) => {
-    // @ts-ignore
     const user = req.session.user;
 
     if (!user) {
@@ -33,8 +31,7 @@ export const getServerSideProps: GetServerSideProps = withIronSessionSsr(
     return {
       props: { user },
     };
-  },
-  sessionCookie
+  }
 );
 
 export default Home;

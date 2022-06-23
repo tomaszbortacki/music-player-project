@@ -5,6 +5,5 @@ export interface UserModel {
   firstname: string;
   lastname: string;
   birthday: string;
-  createdAt: string;
-  updatedAt: string;
+  permission: number;
 }

@@ -1,12 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { DICTIONARY } from "@helpers/messages";
 import { HttpRequestTypes } from "@helpers/http-request-types";
-import { withIronSessionApiRoute } from "iron-session/next";
 import { User } from "@database/connection";
-import { sessionCookie } from "@database/sessionCookie";
+import { withSessionRoute } from "@database/session";
 import { compare } from "bcryptjs";
 
-export default withIronSessionApiRoute(async function handler(
+export default withSessionRoute(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -18,7 +17,7 @@ export default withIronSessionApiRoute(async function handler(
         return res.status(400).send(DICTIONARY.BASIC_ERROR);
       }
 
-      const user = await User.findOne<any>({
+      const user = await User.findOne({
         where: { email },
         attributes: [
           "id_user",
@@ -27,10 +26,11 @@ export default withIronSessionApiRoute(async function handler(
           "firstname",
           "lastname",
           "birthday",
+          "permission",
         ],
       });
 
-      if (!(user && user?.dataValues.password)) {
+      if (!(user && user?.password)) {
         return res.status(404).send(DICTIONARY.EMAIL_PASSWORD);
       }
 
@@ -40,8 +40,7 @@ export default withIronSessionApiRoute(async function handler(
         return res.status(404).send(DICTIONARY.EMAIL_PASSWORD);
       }
 
-      // @ts-ignore
-      req.session.user = user.dataValues;
+      req.session.user = user;
       await req.session.save();
 
       return res.status(200).send(DICTIONARY.WELCOME + email);
@@ -52,5 +51,4 @@ export default withIronSessionApiRoute(async function handler(
   } else {
     return res.status(400).send(DICTIONARY.SUPPORTS(HttpRequestTypes.POST));
   }
-},
-sessionCookie);
+});
