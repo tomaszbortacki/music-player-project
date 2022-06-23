@@ -1,5 +1,11 @@
 @use "./colors" as colors;
 
+a {
+  &:hover {
+    color: colors.$green;
+  }
+}
+
 .button {
   position: relative;
   background-color: colors.$green;

@@ -10,6 +10,7 @@ import Header from "@components/header/header";
 import { Submit } from "@models/form-model";
 import styles from "./user.module.scss";
 import Image from "next/image";
+import CustomHeader from "@components/customHeader/customHeader";
 
 interface Props {
   user: UserModel;
@@ -22,7 +23,7 @@ const User = ({ user }: Props) => {
   };
 
   return (
-    <>
+    <CustomHeader subpage={"User Panel"}>
       <Navigation id_user={user.id_user} />
       <section className={`my-5 ${styles.user}`}>
         <Container fluid={true}>
@@ -38,18 +39,24 @@ const User = ({ user }: Props) => {
               />
             </Col>
             <Col sm={{ span: 12 }} md={{ span: 6 }} xl={{ span: 8 }}>
-              <Image src={"/user-background.png"} width={771} height={534} />
+              <section className={styles.user__image}>
+                <Image
+                  src={"/user-background.png"}
+                  width={771}
+                  height={534}
+                  alt={"User image"}
+                />
+              </section>
             </Col>
           </Row>
         </Container>
       </section>
-    </>
+    </CustomHeader>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = withIronSessionSsr(
   async ({ req, res, query }) => {
-    // @ts-ignore
     const user = req.session.user;
 
     if (!user && query.id !== user.id_user) {

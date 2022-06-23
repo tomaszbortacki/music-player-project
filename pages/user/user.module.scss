@@ -1,3 +1,22 @@
+@use "~bootstrap/scss/mixins" as break;
+
 .user {
   margin: 0 10px;
+
+  &__image {
+    width: 100% !important;
+    height: 100% !important;
+
+    @media (max-width: 767.98px) {
+      display: none;
+    }
+
+    * {
+      @extend .user__image;
+    }
+
+    img {
+      object-fit: cover;
+    }
+  }
 }
