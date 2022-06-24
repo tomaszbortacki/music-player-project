@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { User } from "@database/connection";
+import { User } from "@database/userModel";
 import { hash } from "bcryptjs";
 import { PERMISSIONS } from "@helpers/permissions-enum";
 import { DICTIONARY } from "@helpers/messages";

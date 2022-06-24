@@ -8,3 +8,7 @@ export const signUp = async (data: Data): Promise<string> => {
 export const logIn = async (data: Data): Promise<string> => {
   return (await axios.post<string>("/api/login", data)).data;
 };
+
+export const addSong = async (data: FormData): Promise<string> => {
+  return (await axios.post<string>("/api/addSong", data)).data;
+};

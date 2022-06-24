@@ -56,3 +56,32 @@ export const USER_FIELDS: Fields = [
     },
   },
 ];
+
+export const ADMIN_ADD_SONG_FIELDS: Fields = [
+  {
+    label: "Song title",
+    name: "title",
+    type: "text",
+    rules: {
+      required: {
+        value: true,
+        message: DICTIONARY.REQUIRED,
+      },
+      minLength: {
+        value: 4,
+        message: DICTIONARY.MIN_LENGTH,
+      },
+    },
+  },
+  {
+    label: "Song",
+    name: "song",
+    type: "file",
+    rules: {
+      required: {
+        value: true,
+        message: DICTIONARY.REQUIRED,
+      },
+    },
+  },
+];

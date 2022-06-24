@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { DICTIONARY } from "@helpers/messages";
 import { HttpRequestTypes } from "@helpers/http-request-types";
-import { User } from "@database/connection";
+import { User } from "@database/userModel";
 import { withSessionRoute } from "@database/session";
 import { compare } from "bcryptjs";
 
