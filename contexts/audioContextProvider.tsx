@@ -115,6 +115,13 @@ const AudioContextProvider = ({ children }: Props) => {
   };
 
   useEffect(() => {
+    return () => {
+      audioRef.current?.pause();
+      audioRef.current = undefined;
+    };
+  }, []);
+
+  useEffect(() => {
     if (!currentAudio) return;
     clearPlay();
     startPlay();

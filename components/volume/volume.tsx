@@ -3,7 +3,7 @@ import styles from "./volume.module.scss";
 import { useAudioContext } from "../../contexts/audioContextProvider";
 
 const LOCALSTORAGE_ITEM = "cutify_volume";
-const GRID = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1];
+const GRID = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
 
 const Volume = () => {
   const { volume, setCurrentVolume } = useAudioContext();

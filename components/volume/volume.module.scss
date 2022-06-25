@@ -7,7 +7,6 @@
   &__wrapper {
     margin-left: 0.5rem;
     display: inline-flex;
-    flex-direction: row-reverse;
     border: 1px solid colors.$lightGrey;
     box-shadow: 0 4px 4px transparentize(colors.$lightGrey, 0.75);
     border-radius: 3px;
