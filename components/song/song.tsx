@@ -68,23 +68,25 @@ const Song = ({ song }: Props) => {
       </figure>
       <section className={styles.song__center}>
         <h4 className={styles.song__title}>{song.title}</h4>
-        <section className={styles.song__progress__wrapper}>
-          <input
-            type={"range"}
-            className={styles.song__progress}
-            step={"1"}
-            min={"0"}
-            max={current ? duration : 0}
-            value={current ? progress : 0}
-            onChange={(e) => current && changeProgress(Number(e.target.value))}
-            onMouseUp={() => current && startTimer()}
-            onKeyUp={() => current && startTimer()}
-            style={{ background: current ? progressStyle : "" }}
-          />
-          {current && time && (
-            <span className={styles.song__progress__time}>{time}</span>
-          )}
-        </section>
+        {current && (
+          <section className={styles.song__progress__wrapper}>
+            <input
+              type={"range"}
+              className={styles.song__progress}
+              step={"1"}
+              min={"0"}
+              max={duration}
+              value={progress}
+              onChange={(e) => changeProgress(Number(e.target.value))}
+              onMouseUp={startTimer}
+              onKeyUp={startTimer}
+              style={{ background: progressStyle }}
+            />
+            {time && (
+              <span className={styles.song__progress__time}>{time}</span>
+            )}
+          </section>
+        )}
       </section>
       <button
         className={`button ${styles.song__play}`}

@@ -56,6 +56,7 @@ const AudioContextProvider = ({ children }: Props) => {
     intervalRef.current = setInterval(() => {
       if (audioRef.current?.ended) {
         clearInterval(intervalRef.current);
+        setCurrentAudio(undefined);
         clearPlay();
       }
 
@@ -92,13 +93,12 @@ const AudioContextProvider = ({ children }: Props) => {
   };
 
   const clearPlay = () => {
-    if (!currentAudio) return;
-
     stopPlay();
     setDuration(0);
     setProgress(0);
     setProgressPercentage(0);
     setIsPlaying(false);
+    if (!currentAudio) return;
     audioRef.current = new Audio(currentAudio.path);
   };
 
@@ -116,6 +116,7 @@ const AudioContextProvider = ({ children }: Props) => {
   };
 
   useEffect(() => {
+    if (!currentAudio) return;
     clearPlay();
     startPlay();
   }, [currentAudio]);
