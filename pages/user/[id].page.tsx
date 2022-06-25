@@ -11,7 +11,7 @@ import Image from "next/image";
 import CustomHeader from "@components/customHeader/customHeader";
 import { PERMISSIONS } from "@helpers/permissions-enum";
 import FormData from "form-data";
-import { addSong } from "@database/endpoints";
+import { addSong, update } from "@database/endpoints";
 import { errorHandler } from "@helpers/error-handler";
 import { toast } from "react-toastify";
 
@@ -21,8 +21,11 @@ type Props = {
 
 const User = ({ user }: Props) => {
   const submit: Submit = (data) => {
-    console.log(data);
-    return new Promise<void>((resolve) => resolve());
+    return update(data)
+      .then((message) => {
+        toast.success(message);
+      })
+      .catch(errorHandler);
   };
 
   const submitSong: Submit = (data) => {
@@ -31,7 +34,6 @@ const User = ({ user }: Props) => {
     formData.append("title", data.title);
     formData.append("song", data.song[0]);
 
-    // @ts-ignore
     return addSong(formData)
       .then((message) => {
         toast.success(message);
@@ -53,6 +55,7 @@ const User = ({ user }: Props) => {
             <Col sm={{ span: 12 }} md={{ span: 6 }} xl={{ span: 4 }}>
               <Form
                 fields={USER_FIELDS}
+                fieldsData={user}
                 submit={submit}
                 submitMessage={"Save"}
               />
@@ -96,8 +99,10 @@ export const getServerSideProps = withSessionSsr<Props>(
       return { props: {} };
     }
 
+    const { password, ...userData } = user;
+
     return {
-      props: { user },
+      props: { user: userData },
     };
   }
 );

@@ -9,6 +9,10 @@ export const logIn = async (data: Data): Promise<string> => {
   return (await axios.post<string>("/api/login", data)).data;
 };
 
-export const addSong = async (data: FormData): Promise<string> => {
+export const addSong = async (data: Partial<FormData>): Promise<string> => {
   return (await axios.post<string>("/api/addSong", data)).data;
+};
+
+export const update = async (data: Data): Promise<string> => {
+  return (await axios.put<string>("/api/update", data)).data;
 };

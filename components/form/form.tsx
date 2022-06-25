@@ -12,6 +12,7 @@ interface Props {
   submitMessage: string;
   additionalLink?: AdditionalLink;
   fields: Fields;
+  fieldsData?: Record<string, any>;
   resetFields?: boolean;
 }
 
@@ -20,6 +21,7 @@ const Form = ({
   submitMessage,
   additionalLink,
   fields,
+  fieldsData,
   resetFields,
 }: Props) => {
   const {
@@ -27,11 +29,21 @@ const Form = ({
     register,
     watch,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm();
   const [formFields, setFormFields] = useState<Fields>([]);
 
   useEffect(() => customRules(fields, setFormFields, watch), [fields, watch]);
+
+  useEffect(() => {
+    if (!(fieldsData && formFields)) {
+      return;
+    }
+    Object.entries(fieldsData).forEach(([name, value]) => {
+      setValue(name, value);
+    });
+  }, [formFields, fieldsData, setValue]);
 
   const primarySubmit: Submit = async (data) => {
     await submit(data);

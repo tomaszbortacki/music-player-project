@@ -52,7 +52,7 @@ export default withSessionRoute(async function handler(
       await Song.create({
         id_song: v4(),
         title: fields.title,
-        path: `/song/${songName}`,
+        path: `/songs/${songName}`,
       });
 
       const songData = await readFile(files.song.filepath);
