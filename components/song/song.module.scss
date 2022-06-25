@@ -1,0 +1,87 @@
+@use "@styles/colors" as colors;
+
+.song {
+  width: 100%;
+  min-height: 56px;
+  border-radius: 3px;
+  border: 1px solid colors.$lightGrey;
+  box-shadow: 0 4px 4px transparentize(colors.$lightGrey, 0.75);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 1rem;
+
+  &__image {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: inherit;
+    flex-shrink: 0;
+    flex-grow: 0;
+
+    &__playing {
+      animation: imageSpinner 2s infinite linear;
+    }
+
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: colors.$white;
+      border-radius: 50%;
+    }
+
+    img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover;
+    }
+  }
+
+  &__center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    margin: 0 1rem;
+  }
+
+  &__title {
+    color: colors.$dark;
+    font-size: 12px;
+    line-height: 16px;
+    margin: 0;
+  }
+
+  &__progress {
+    height: 4px;
+    -webkit-appearance: none;
+    width: 100%;
+    border-radius: 3px;
+    background: colors.$dark;
+    cursor: pointer;
+  }
+
+  &__play {
+    min-height: 33px;
+    min-width: 80px;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px;
+  }
+}
+
+@keyframes imageSpinner {
+  from {
+    transform: rotate(0deg);
+  } to {
+    transform: rotate(360deg);
+  }
+}

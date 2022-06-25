@@ -1,19 +1,34 @@
 import type { NextPage } from "next";
 import { withSessionSsr } from "@database/session";
-import { UserModel } from "@helpers/user-model";
 import Navigation from "@components/navigation/navigation";
+import CustomHeader from "@components/customHeader/customHeader";
+import { Song } from "@database/songModel";
+import Songs from "@components/songs/songs";
+import { Col, Container, Row } from "react-bootstrap";
 
 type Props = {
-  user?: UserModel;
+  id_user?: string;
+  songsSerialized?: string;
 };
 
-const Home: NextPage<Props> = ({ user }) => {
-  if (!user) return null;
+const Home: NextPage<Props> = ({ id_user, songsSerialized }) => {
+  if (!id_user) return null;
 
   return (
-    <>
-      <Navigation id_user={user.id_user} />
-    </>
+    <CustomHeader>
+      <Navigation id_user={id_user} />
+      <Container className={"my-5"}>
+        <Row>
+          <Col
+            xs={{ span: 12 }}
+            md={{ span: 8, offset: 2 }}
+            xl={{ span: 6, offset: 3 }}
+          >
+            <Songs songsSerialized={songsSerialized} />
+          </Col>
+        </Row>
+      </Container>
+    </CustomHeader>
   );
 };
 
@@ -28,9 +43,22 @@ export const getServerSideProps = withSessionSsr<Props>(
       return { props: {} };
     }
 
-    return {
-      props: { user },
-    };
+    try {
+      const songs = await Song.findAll({
+        attributes: ["id_song", "title", "path"],
+        limit: 10,
+      });
+
+      return {
+        props: {
+          id_user: user.id_user,
+          songsSerialized: JSON.stringify(songs),
+        },
+      };
+    } catch (e) {
+      console.log(e);
+      return { props: {} };
+    }
   }
 );
 

@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import Head from "next/head";
 
 interface Props {
-  subpage: string;
+  subpage?: string;
   children: ReactNode | Array<ReactNode>;
 }
 
