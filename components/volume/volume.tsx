@@ -28,7 +28,7 @@ const Volume = () => {
           <button
             onClick={() => changeVolume(value)}
             className={`${styles.volume__bar} ${
-              volume === value ? styles.volume__bar__active : ""
+              volume >= value ? styles.volume__bar__active : ""
             }`}
             key={key}
           />

@@ -17,3 +17,13 @@ export const addSong = async (data: Partial<FormData>): Promise<string> => {
 export const update = async (data: Data): Promise<string> => {
   return (await axios.put<string>("/api/update", data)).data;
 };
+
+export const getSongs = async (search: string): Promise<Array<SongModel>> => {
+  return (
+    await axios.get<Array<SongModel>>("/api/getSongs", {
+      params: {
+        search,
+      },
+    })
+  ).data;
+};

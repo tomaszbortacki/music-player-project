@@ -5,6 +5,7 @@ import CustomHeader from "@components/customHeader/customHeader";
 import { Song } from "@database/songModel";
 import Songs from "@components/songs/songs";
 import { Col, Container, Row } from "react-bootstrap";
+import AudioContextProvider from "../contexts/audioContextProvider";
 
 type Props = {
   id_user?: string;
@@ -24,7 +25,9 @@ const Home: NextPage<Props> = ({ id_user, songsSerialized }) => {
             md={{ span: 8, offset: 2 }}
             xl={{ span: 6, offset: 3 }}
           >
-            <Songs songsSerialized={songsSerialized} />
+            <AudioContextProvider>
+              <Songs songsSerialized={songsSerialized} />
+            </AudioContextProvider>
           </Col>
         </Row>
       </Container>

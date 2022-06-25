@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import { SongModel } from "@helpers/song-model";
 import Song from "@components/song/song";
 import styles from "./songs.module.scss";
-import AudioContextProvider from "../../contexts/audioContextProvider";
 import Volume from "@components/volume/volume";
+import Search from "@components/search/search";
+import { getSongs } from "@database/endpoints";
+import { errorHandler } from "@helpers/error-handler";
+import { useAudioContext } from "../../contexts/audioContextProvider";
 
 interface Props {
   songsSerialized?: string;
@@ -11,6 +14,7 @@ interface Props {
 
 const Songs = ({ songsSerialized }: Props) => {
   const [songs, setSongs] = useState<Array<SongModel>>([]);
+  const { currentAudio } = useAudioContext();
 
   useEffect(() => {
     if (!songsSerialized) return;
@@ -23,16 +27,28 @@ const Songs = ({ songsSerialized }: Props) => {
     }
   }, [songsSerialized]);
 
+  const search = (value: string) => {
+    getSongs(value)
+      .then((data) => {
+        setSongs(data);
+      })
+      .catch(errorHandler);
+  };
+
   return (
     <section className={styles.songs}>
-      <AudioContextProvider>
-        <section>
-          <Volume />
+      <section className={styles.songs__top}>
+        <Search searchSong={search} />
+        <Volume />
+      </section>
+      {songs.map((song) => (
+        <Song song={song} key={song.id_song} />
+      ))}
+      {currentAudio && (
+        <section className={styles.songs__fixed}>
+          <Song song={currentAudio} />
         </section>
-        {songs.map((song) => (
-          <Song song={song} key={song.id_song} />
-        ))}
-      </AudioContextProvider>
+      )}
     </section>
   );
 };
