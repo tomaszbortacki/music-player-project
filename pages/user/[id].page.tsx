@@ -21,7 +21,8 @@ type Props = {
 
 const User = ({ user }: Props) => {
   const submit: Submit = (data) => {
-    return update(data)
+    const { rpassword, permission, email, ...userData } = data;
+    return update(userData)
       .then((message) => {
         toast.success(message);
       })

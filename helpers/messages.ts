@@ -10,9 +10,11 @@ export const DICTIONARY = {
   BASIC_ERROR: "Something went wrong",
   SUPPORTS: supportMessage,
   EMAIL_PASSWORD: "Email or password do not match",
+  PASSWORD: "Wrong password",
   WELCOME: "Welcome back ",
   SESSION: "Need session",
   SESSION_ADMIN: "Need session and admin permission",
   FILE_TYPE_ERROR: "Wrong file type",
   SONG_ADDED_SUCCESSFULLY: "Song added successfully",
+  UPDATED: "Information changed successfully",
 };

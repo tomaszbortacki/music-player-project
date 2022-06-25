@@ -4,6 +4,7 @@ import { HttpRequestTypes } from "@helpers/http-request-types";
 import { User } from "@database/userModel";
 import { withSessionRoute } from "@database/session";
 import { compare } from "bcryptjs";
+import { UserModel } from "@helpers/user-model";
 
 export default withSessionRoute(async function handler(
   req: NextApiRequest,
@@ -11,7 +12,7 @@ export default withSessionRoute(async function handler(
 ) {
   if (req.method === HttpRequestTypes.POST) {
     try {
-      const { email, password } = req.body;
+      const { email, password }: UserModel = req.body;
 
       if (!(email && password)) {
         return res.status(400).send(DICTIONARY.BASIC_ERROR);
