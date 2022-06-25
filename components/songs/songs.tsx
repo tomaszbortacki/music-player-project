@@ -3,6 +3,7 @@ import { SongModel } from "@helpers/song-model";
 import Song from "@components/song/song";
 import styles from "./songs.module.scss";
 import AudioContextProvider from "../../contexts/audioContextProvider";
+import Volume from "@components/volume/volume";
 
 interface Props {
   songsSerialized?: string;
@@ -25,6 +26,9 @@ const Songs = ({ songsSerialized }: Props) => {
   return (
     <section className={styles.songs}>
       <AudioContextProvider>
+        <section>
+          <Volume />
+        </section>
         {songs.map((song) => (
           <Song song={song} key={song.id_song} />
         ))}

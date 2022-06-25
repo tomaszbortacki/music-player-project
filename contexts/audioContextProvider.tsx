@@ -24,6 +24,8 @@ interface Context {
   progressStyle: string;
   changeProgress: (value: number) => void;
   startTimer: () => void;
+  volume: number;
+  setCurrentVolume: (volume: number) => void;
 }
 
 const AudioContext = createContext<Context>({} as Context);
@@ -37,6 +39,16 @@ const AudioContextProvider = ({ children }: Props) => {
   const [progress, setProgress] = useState(0);
   const [progressPercentage, setProgressPercentage] = useState(0);
   const [progressStyle, setProgressStyle] = useState("");
+  const [volume, setVolume] = useState<number>(0);
+
+  const setCurrentVolume = (volume: number) => {
+    console.log("hello", volume);
+    setVolume(volume);
+
+    if (audioRef.current?.volume) {
+      audioRef.current.volume = volume;
+    }
+  };
 
   const startTimer = () => {
     clearInterval(intervalRef.current);
@@ -57,9 +69,7 @@ const AudioContextProvider = ({ children }: Props) => {
     audioRef.current
       ?.play()
       .then(() => {
-        if (audioRef.current?.volume) {
-          audioRef.current.volume = 0.1;
-        }
+        setCurrentVolume(volume);
         setIsPlaying(true);
         setDuration(audioRef.current?.duration || 0);
         startTimer();
@@ -131,6 +141,8 @@ const AudioContextProvider = ({ children }: Props) => {
         progressStyle,
         changeProgress,
         startTimer,
+        volume,
+        setCurrentVolume,
       }}
     >
       {children}
