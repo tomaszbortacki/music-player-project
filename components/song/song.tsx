@@ -77,8 +77,8 @@ const Song = ({ song }: Props) => {
             max={current ? duration : 0}
             value={current ? progress : 0}
             onChange={(e) => current && changeProgress(Number(e.target.value))}
-            onMouseUp={() => current && startTimer}
-            onKeyUp={() => current && startTimer}
+            onMouseUp={() => current && startTimer()}
+            onKeyUp={() => current && startTimer()}
             style={{ background: current ? progressStyle : "" }}
           />
           {current && time && (
