@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styles from "./volume.module.scss";
 import { useAudioContext } from "../../contexts/audioContextProvider";
 
@@ -10,9 +10,7 @@ const Volume = () => {
 
   useEffect(() => {
     const prevVolume = Number(localStorage.getItem(LOCALSTORAGE_ITEM));
-    console.log(prevVolume);
     setCurrentVolume(prevVolume);
-    console.log(GRID);
   }, []);
 
   const changeVolume = (value: number) => {

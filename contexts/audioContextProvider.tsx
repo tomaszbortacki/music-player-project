@@ -42,7 +42,6 @@ const AudioContextProvider = ({ children }: Props) => {
   const [volume, setVolume] = useState<number>(0);
 
   const setCurrentVolume = (volume: number) => {
-    console.log("hello", volume);
     setVolume(volume);
 
     if (audioRef.current?.volume) {
