@@ -16,15 +16,39 @@ const Song = ({ song }: Props) => {
     duration,
     progress,
     progressStyle,
+    changeProgress,
+    startTimer,
   } = useAudioContext();
 
   const [current, setCurrent] = useState(false);
+  const [time, setTime] = useState<string>();
 
   useEffect(() => {
     setCurrent(
       currentAudio !== undefined && currentAudio.id_song === song.id_song
     );
   }, [currentAudio]);
+
+  useEffect(() => {
+    if (current) {
+      if (duration - progress < 0) {
+        setTime("0:00");
+        return;
+      }
+
+      const minutes = Math.floor((duration - progress) / 60);
+      let seconds =
+        duration - progress - Math.floor((duration - progress) / 60) * 60;
+
+      setTime(
+        `${minutes}:${
+          seconds < 10 ? `0${seconds.toFixed(0)}` : seconds.toFixed(0)
+        }`
+      );
+    } else {
+      setTime(undefined);
+    }
+  }, [current, duration, progress]);
 
   return (
     <section className={styles.song}>
@@ -44,7 +68,7 @@ const Song = ({ song }: Props) => {
       </figure>
       <section className={styles.song__center}>
         <h4 className={styles.song__title}>{song.title}</h4>
-        <section>
+        <section className={styles.song__progress__wrapper}>
           <input
             type={"range"}
             className={styles.song__progress}
@@ -52,15 +76,21 @@ const Song = ({ song }: Props) => {
             min={"0"}
             max={current ? duration : 0}
             value={current ? progress : 0}
+            onChange={(e) => current && changeProgress(Number(e.target.value))}
+            onMouseUp={() => current && startTimer}
+            onKeyUp={() => current && startTimer}
             style={{ background: current ? progressStyle : "" }}
           />
+          {current && time && (
+            <span className={styles.song__progress__time}>{time}</span>
+          )}
         </section>
       </section>
       <button
         className={`button ${styles.song__play}`}
         onClick={() => playPause(song)}
       >
-        {currentAudio?.id_song === song.id_song && isPlaying ? "Pause" : "Play"}
+        {current && isPlaying ? "Pause" : "Play"}
       </button>
     </section>
   );

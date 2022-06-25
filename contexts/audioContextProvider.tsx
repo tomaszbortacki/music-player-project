@@ -22,6 +22,8 @@ interface Context {
   duration: number;
   progress: number;
   progressStyle: string;
+  changeProgress: (value: number) => void;
+  startTimer: () => void;
 }
 
 const AudioContext = createContext<Context>({} as Context);
@@ -55,6 +57,9 @@ const AudioContextProvider = ({ children }: Props) => {
     audioRef.current
       ?.play()
       .then(() => {
+        if (audioRef.current?.volume) {
+          audioRef.current.volume = 0.1;
+        }
         setIsPlaying(true);
         setDuration(audioRef.current?.duration || 0);
         startTimer();
@@ -68,11 +73,21 @@ const AudioContextProvider = ({ children }: Props) => {
     setIsPlaying(false);
   };
 
+  const changeProgress = (value: number) => {
+    clearInterval(intervalRef.current);
+    if (audioRef.current?.currentTime) {
+      audioRef.current.currentTime = value;
+      setProgress(value);
+    }
+  };
+
   const clearPlay = () => {
     if (!currentAudio) return;
 
     stopPlay();
+    setDuration(0);
     setProgress(0);
+    setProgressPercentage(0);
     setIsPlaying(false);
     audioRef.current = new Audio(currentAudio.path);
   };
@@ -101,7 +116,7 @@ const AudioContextProvider = ({ children }: Props) => {
 
   useEffect(() => {
     setProgressStyle(
-      `-webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${progressPercentage}%, #27AE60), color-stop(${progressPercentage}%, #474747))`
+      `-webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${progressPercentage}%, #474747), color-stop(${progressPercentage}%, rgba(71, 71, 71, 0.1)))`
     );
   }, [progressPercentage]);
 
@@ -114,6 +129,8 @@ const AudioContextProvider = ({ children }: Props) => {
         duration,
         progress,
         progressStyle,
+        changeProgress,
+        startTimer,
       }}
     >
       {children}
