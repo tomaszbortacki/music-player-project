@@ -46,7 +46,7 @@ const Songs = ({ songsSerialized }: Props) => {
       ))}
       {currentAudio && (
         <section className={styles.songs__fixed}>
-          <Song song={currentAudio} />
+          <Song song={currentAudio} closeButton={true} />
         </section>
       )}
     </section>

@@ -6,9 +6,10 @@ import { useEffect, useState } from "react";
 
 interface Props {
   song: SongModel;
+  closeButton?: boolean;
 }
 
-const Song = ({ song }: Props) => {
+const Song = ({ song, closeButton }: Props) => {
   const {
     currentAudio,
     isPlaying,
@@ -18,6 +19,7 @@ const Song = ({ song }: Props) => {
     progressStyle,
     changeProgress,
     startTimer,
+    removeAudio,
   } = useAudioContext();
 
   const [current, setCurrent] = useState(false);
@@ -94,6 +96,9 @@ const Song = ({ song }: Props) => {
       >
         {current && isPlaying ? "Pause" : "Play"}
       </button>
+      {closeButton && (
+        <button className={`button close`} onClick={removeAudio} />
+      )}
     </section>
   );
 };

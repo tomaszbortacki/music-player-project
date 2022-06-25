@@ -26,6 +26,7 @@ interface Context {
   startTimer: () => void;
   volume: number;
   setCurrentVolume: (volume: number) => void;
+  removeAudio: () => void;
 }
 
 const AudioContext = createContext<Context>({} as Context);
@@ -49,14 +50,20 @@ const AudioContextProvider = ({ children }: Props) => {
     }
   };
 
+  const removeAudio = () => {
+    audioRef.current?.pause();
+    audioRef.current = undefined;
+    clearInterval(intervalRef.current);
+    setCurrentAudio(undefined);
+    clearPlay();
+  };
+
   const startTimer = () => {
     clearInterval(intervalRef.current);
 
     intervalRef.current = setInterval(() => {
       if (audioRef.current?.ended) {
-        clearInterval(intervalRef.current);
-        setCurrentAudio(undefined);
-        clearPlay();
+        removeAudio();
       }
 
       if (audioRef.current?.currentTime) {
@@ -116,8 +123,7 @@ const AudioContextProvider = ({ children }: Props) => {
 
   useEffect(() => {
     return () => {
-      audioRef.current?.pause();
-      audioRef.current = undefined;
+      removeAudio();
     };
   }, []);
 
@@ -150,6 +156,7 @@ const AudioContextProvider = ({ children }: Props) => {
         startTimer,
         volume,
         setCurrentVolume,
+        removeAudio,
       }}
     >
       {children}
