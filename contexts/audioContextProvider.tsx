@@ -3,6 +3,7 @@ import {
   ReactNode,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -42,13 +43,15 @@ const AudioContextProvider = ({ children }: Props) => {
   const [progressStyle, setProgressStyle] = useState("");
   const [volume, setVolume] = useState<number>(0);
 
-  const setCurrentVolume = (volume: number) => {
-    setVolume(volume);
+  const setCurrentVolume = useMemo(() => {
+    return (volume: number) => {
+      setVolume(volume);
 
-    if (audioRef.current?.volume) {
-      audioRef.current.volume = volume;
-    }
-  };
+      if (audioRef.current?.volume) {
+        audioRef.current.volume = volume;
+      }
+    };
+  }, []);
 
   const removeAudio = () => {
     audioRef.current?.pause();

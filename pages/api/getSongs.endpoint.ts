@@ -41,6 +41,7 @@ export default withSessionRoute(async function handler(
             attributes: ["id_miniature", "path"],
           },
         ],
+        order: [["title", "ASC"]],
         limit: PAGE_LIMIT,
         offset: Number(req.query.page) * PAGE_LIMIT,
       });

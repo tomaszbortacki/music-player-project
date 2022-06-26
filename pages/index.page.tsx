@@ -59,6 +59,7 @@ export const getServerSideProps = withSessionSsr<Props>(
             attributes: ["id_miniature", "path"],
           },
         ],
+        order: [["title", "ASC"]],
         limit: PAGE_LIMIT,
       });
 
