@@ -11,9 +11,10 @@ import { Miniature } from "@database/miniatureModel";
 type Props = {
   id_user?: string;
   songsSerialized?: string;
+  count?: number;
 };
 
-const Home: NextPage<Props> = ({ id_user, songsSerialized }) => {
+const Home: NextPage<Props> = ({ id_user, songsSerialized, count }) => {
   if (!id_user) return null;
 
   return (
@@ -27,7 +28,7 @@ const Home: NextPage<Props> = ({ id_user, songsSerialized }) => {
             xl={{ span: 6, offset: 3 }}
           >
             <AudioContextProvider>
-              <Songs songsSerialized={songsSerialized} />
+              <Songs songsSerialized={songsSerialized} count={count} />
             </AudioContextProvider>
           </Col>
         </Row>
@@ -48,7 +49,7 @@ export const getServerSideProps = withSessionSsr<Props>(
     }
 
     try {
-      const songs = await Song.findAll({
+      const { rows, count } = await Song.findAndCountAll({
         attributes: ["id_song", "title", "path"],
         include: [
           {
@@ -63,7 +64,8 @@ export const getServerSideProps = withSessionSsr<Props>(
       return {
         props: {
           id_user: user.id_user,
-          songsSerialized: JSON.stringify(songs),
+          songsSerialized: JSON.stringify(rows),
+          count,
         },
       };
     } catch (e) {

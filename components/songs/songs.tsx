@@ -10,9 +10,10 @@ import { useAudioContext } from "../../contexts/audioContextProvider";
 
 interface Props {
   songsSerialized?: string;
+  count?: number;
 }
 
-const Songs = ({ songsSerialized }: Props) => {
+const Songs = ({ songsSerialized, count }: Props) => {
   const [songs, setSongs] = useState<Array<SongModel>>([]);
   const { currentAudio } = useAudioContext();
 
@@ -44,6 +45,9 @@ const Songs = ({ songsSerialized }: Props) => {
       {songs.map((song) => (
         <Song song={song} key={song.id_song} />
       ))}
+      <span className={"text-center"}>
+        {songs.length} - {count}
+      </span>
       {currentAudio && (
         <section className={styles.songs__fixed}>
           <Song song={currentAudio} closeButton={true} />
