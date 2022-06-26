@@ -18,12 +18,19 @@ export const update = async (data: Data): Promise<string> => {
   return (await axios.put<string>("/api/update", data)).data;
 };
 
-export const getSongs = async (search: string): Promise<Array<SongModel>> => {
+export const getSongs = async (
+  search: string,
+  page: number
+): Promise<{ songs: Array<SongModel>; count: number }> => {
   return (
-    await axios.get<Array<SongModel>>("/api/getSongs", {
-      params: {
-        search,
-      },
-    })
+    await axios.get<{ songs: Array<SongModel>; count: number }>(
+      "/api/getSongs",
+      {
+        params: {
+          search,
+          page,
+        },
+      }
+    )
   ).data;
 };

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { SongModel } from "@helpers/song-model";
 import Song from "@components/song/song";
 import styles from "./songs.module.scss";
@@ -7,6 +7,8 @@ import Search from "@components/search/search";
 import { getSongs } from "@database/endpoints";
 import { errorHandler } from "@helpers/error-handler";
 import { useAudioContext } from "../../contexts/audioContextProvider";
+import Pagination from "@components/pagination/pagination";
+import { PAGE_LIMIT } from "@helpers/pagination";
 
 interface Props {
   songsSerialized?: string;
@@ -14,7 +16,9 @@ interface Props {
 }
 
 const Songs = ({ songsSerialized, count }: Props) => {
+  const [songsLength, setSongsLength] = useState(count || 0);
   const [songs, setSongs] = useState<Array<SongModel>>([]);
+  const [currentPage, setCurrentPage] = useState(0);
   const { currentAudio } = useAudioContext();
 
   useEffect(() => {
@@ -28,26 +32,42 @@ const Songs = ({ songsSerialized, count }: Props) => {
     }
   }, [songsSerialized]);
 
-  const search = (value: string) => {
-    getSongs(value)
-      .then((data) => {
-        setSongs(data);
-      })
-      .catch(errorHandler);
-  };
+  const search = useMemo(() => {
+    return (value: string, page: number = 0) => {
+      getSongs(value, page)
+        .then(({ songs, count }) => {
+          setSongs(songs);
+          setCurrentPage(page);
+          setSongsLength(count);
+        })
+        .catch(errorHandler);
+    };
+  }, []);
+
+  const setPage = useMemo(() => {
+    return (page: number) => {
+      search("", page);
+    };
+  }, []);
 
   return (
     <section className={styles.songs}>
-      <section className={styles.songs__top}>
+      <section className={styles.songs__wrapper}>
         <Search searchSong={search} />
         <Volume />
       </section>
       {songs.map((song) => (
         <Song song={song} key={song.id_song} />
       ))}
-      <span className={"text-center"}>
-        {songs.length} - {count}
-      </span>
+      <section className={styles.songs__wrapper}>
+        {songsLength && songsLength > songs.length && (
+          <Pagination
+            pages={Math.ceil(songsLength - PAGE_LIMIT)}
+            setPage={setPage}
+            currentPage={currentPage}
+          />
+        )}
+      </section>
       {currentAudio && (
         <section className={styles.songs__fixed}>
           <Song song={currentAudio} closeButton={true} />

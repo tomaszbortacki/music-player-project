@@ -7,6 +7,7 @@ import Songs from "@components/songs/songs";
 import { Col, Container, Row } from "react-bootstrap";
 import AudioContextProvider from "../contexts/audioContextProvider";
 import { Miniature } from "@database/miniatureModel";
+import { PAGE_LIMIT } from "@helpers/pagination";
 
 type Props = {
   id_user?: string;
@@ -58,7 +59,7 @@ export const getServerSideProps = withSessionSsr<Props>(
             attributes: ["id_miniature", "path"],
           },
         ],
-        limit: 10,
+        limit: PAGE_LIMIT,
       });
 
       return {

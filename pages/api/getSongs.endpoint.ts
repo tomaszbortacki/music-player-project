@@ -5,6 +5,7 @@ import { withSessionRoute } from "@database/session";
 import { Song } from "@database/songModel";
 import { Op } from "sequelize";
 import { Miniature } from "@database/miniatureModel";
+import { PAGE_LIMIT } from "@helpers/pagination";
 
 export default withSessionRoute(async function handler(
   req: NextApiRequest,
@@ -30,7 +31,7 @@ export default withSessionRoute(async function handler(
         };
       }
 
-      const songs = await Song.findAll({
+      const { rows, count } = await Song.findAndCountAll({
         ...query,
         attributes: ["id_song", "title", "path"],
         include: [
@@ -40,10 +41,11 @@ export default withSessionRoute(async function handler(
             attributes: ["id_miniature", "path"],
           },
         ],
-        limit: 10,
+        limit: PAGE_LIMIT,
+        offset: Number(req.query.page) * PAGE_LIMIT,
       });
 
-      return res.status(200).json(songs);
+      return res.status(200).json({ songs: rows, count });
     } catch (e) {
       console.log(e);
       return res.status(500).send(DICTIONARY.BASIC_ERROR);

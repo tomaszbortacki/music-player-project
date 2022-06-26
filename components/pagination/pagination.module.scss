@@ -1,0 +1,17 @@
+.pagination {
+  display: flex;
+  gap: 8px;
+
+  &__button {
+    display: block;
+    border: none;
+    font-size: 14px;
+    line-height: 16px;
+    background-color: transparent;
+
+    &__active {
+      position: relative;
+      font-weight: 700;
+    }
+  }
+}
