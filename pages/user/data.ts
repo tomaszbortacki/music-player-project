@@ -74,6 +74,11 @@ export const ADMIN_ADD_SONG_FIELDS: Fields = [
     },
   },
   {
+    label: "Miniature",
+    name: "miniature",
+    type: "file",
+  },
+  {
     label: "Song",
     name: "song",
     type: "file",

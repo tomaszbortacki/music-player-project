@@ -33,6 +33,7 @@ const User = ({ user }: Props) => {
     const formData = new FormData();
 
     formData.append("title", data.title);
+    formData.append("miniature", data.miniature[0]);
     formData.append("song", data.song[0]);
 
     return addSong(formData)

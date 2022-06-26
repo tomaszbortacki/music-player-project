@@ -9,7 +9,7 @@ const Volume = () => {
   const { volume, setCurrentVolume } = useAudioContext();
 
   useEffect(() => {
-    const prevVolume = Number(localStorage.getItem(LOCALSTORAGE_ITEM));
+    const prevVolume = Number(localStorage.getItem(LOCALSTORAGE_ITEM)) || 0.1;
     setCurrentVolume(prevVolume);
   }, []);
 

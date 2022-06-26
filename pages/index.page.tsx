@@ -6,6 +6,7 @@ import { Song } from "@database/songModel";
 import Songs from "@components/songs/songs";
 import { Col, Container, Row } from "react-bootstrap";
 import AudioContextProvider from "../contexts/audioContextProvider";
+import { Miniature } from "@database/miniatureModel";
 
 type Props = {
   id_user?: string;
@@ -49,6 +50,13 @@ export const getServerSideProps = withSessionSsr<Props>(
     try {
       const songs = await Song.findAll({
         attributes: ["id_song", "title", "path"],
+        include: [
+          {
+            model: Miniature,
+            required: true,
+            attributes: ["id_miniature", "path"],
+          },
+        ],
         limit: 10,
       });
 

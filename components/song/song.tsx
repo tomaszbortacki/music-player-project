@@ -62,7 +62,7 @@ const Song = ({ song, closeButton }: Props) => {
         }`}
       >
         <Image
-          src={"/music-background.jpg"}
+          src={song.Miniature.path}
           width={100}
           height={100}
           alt={song.title}

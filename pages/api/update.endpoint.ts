@@ -13,14 +13,8 @@ export default withSessionRoute(async function handler(
   if (req.method === HttpRequestTypes.PUT) {
     try {
       const user = req.session.user;
-      const {
-        id_user,
-        email,
-        password,
-        firstname,
-        lastname,
-        birthday,
-      }: UserModel = req.body;
+      const { id_user, password, firstname, lastname, birthday }: UserModel =
+        req.body;
 
       if (!user || user.id_user !== id_user) {
         return res.status(500).send(DICTIONARY.SESSION);

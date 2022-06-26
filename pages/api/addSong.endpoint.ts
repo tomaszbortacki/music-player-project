@@ -7,6 +7,7 @@ import { getFormData } from "@helpers/convert-form-data";
 import { readFile, writeFile } from "fs/promises";
 import { Song } from "@database/songModel";
 import { v4 } from "uuid";
+import { Miniature } from "@database/miniatureModel";
 
 export const config = {
   api: {
@@ -32,7 +33,15 @@ export default withSessionRoute(async function handler(
         return res.status(500).send(DICTIONARY.BASIC_ERROR);
       }
 
+      if (Array.isArray(files.miniature)) {
+        files.miniature = files.miniature[0];
+      }
+
       if (!files.song.mimetype?.startsWith("audio")) {
+        return res.status(500).send(DICTIONARY.FILE_TYPE_ERROR);
+      }
+
+      if (files.miniature && !files.miniature.mimetype?.startsWith("image")) {
         return res.status(500).send(DICTIONARY.FILE_TYPE_ERROR);
       }
 
@@ -49,16 +58,45 @@ export default withSessionRoute(async function handler(
         return res.status(400).send("This song already exists");
       }
 
+      let id_miniature = "default";
+      let newImage = false;
+
+      if (
+        files.miniature?.originalFilename &&
+        files.miniature.originalFilename.length
+      ) {
+        const [miniature, created] = await Miniature.findOrCreate({
+          where: {
+            path: `/miniatures/${files.miniature.originalFilename}`,
+          },
+          defaults: {
+            id_miniature: v4(),
+            path: `/miniatures/${files.miniature.originalFilename}`,
+          },
+        });
+
+        id_miniature = miniature.id_miniature;
+        newImage = created;
+      }
+
       await Song.create({
         id_song: v4(),
-        title: fields.title,
+        title: (fields.title as string).trim(),
         path: `/songs/${songName}`,
+        id_miniature,
       });
 
       const songData = await readFile(files.song.filepath);
       const path = `./public/songs/${songName}`;
 
       await writeFile(path, songData);
+
+      if (newImage) {
+        const miniatureData = await readFile(files.miniature.filepath);
+        const path = `./public/miniatures/${files.miniature.originalFilename}`;
+
+        await writeFile(path, miniatureData);
+      }
 
       return res.status(200).send(DICTIONARY.SONG_ADDED_SUCCESSFULLY);
     } catch (e) {

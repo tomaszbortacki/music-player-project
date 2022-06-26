@@ -4,6 +4,7 @@ import { HttpRequestTypes } from "@helpers/http-request-types";
 import { withSessionRoute } from "@database/session";
 import { Song } from "@database/songModel";
 import { Op } from "sequelize";
+import { Miniature } from "@database/miniatureModel";
 
 export default withSessionRoute(async function handler(
   req: NextApiRequest,
@@ -32,6 +33,13 @@ export default withSessionRoute(async function handler(
       const songs = await Song.findAll({
         ...query,
         attributes: ["id_song", "title", "path"],
+        include: [
+          {
+            model: Miniature,
+            required: true,
+            attributes: ["id_miniature", "path"],
+          },
+        ],
         limit: 10,
       });
 
