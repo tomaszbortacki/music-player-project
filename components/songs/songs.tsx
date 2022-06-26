@@ -20,6 +20,7 @@ const Songs = ({ songsSerialized, count }: Props) => {
   const [songs, setSongs] = useState<Array<SongModel>>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const { currentAudio } = useAudioContext();
+  const [currentSearchValue, SetCurrentSearchValue] = useState<string>("");
 
   useEffect(() => {
     if (!songsSerialized) return;
@@ -39,6 +40,7 @@ const Songs = ({ songsSerialized, count }: Props) => {
           setSongs(songs);
           setCurrentPage(page);
           setSongsLength(count);
+          SetCurrentSearchValue(value);
         })
         .catch(errorHandler);
     };
@@ -46,9 +48,9 @@ const Songs = ({ songsSerialized, count }: Props) => {
 
   const setPage = useMemo(() => {
     return (page: number) => {
-      search("", page);
+      search(currentSearchValue, page);
     };
-  }, []);
+  }, [currentSearchValue]);
 
   return (
     <section className={styles.songs}>
@@ -60,9 +62,9 @@ const Songs = ({ songsSerialized, count }: Props) => {
         <Song song={song} key={song.id_song} />
       ))}
       <section className={styles.songs__wrapper}>
-        {songsLength && songsLength > songs.length && (
+        {songsLength !== 0 && songsLength > songs.length && (
           <Pagination
-            pages={Math.ceil(songsLength - PAGE_LIMIT)}
+            pages={Math.ceil(songsLength / PAGE_LIMIT)}
             setPage={setPage}
             currentPage={currentPage}
           />

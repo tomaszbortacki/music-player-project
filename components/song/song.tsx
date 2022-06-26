@@ -44,7 +44,7 @@ const Song = ({ song, closeButton }: Props) => {
 
       setTime(
         `${minutes}:${
-          seconds < 10 ? `0${seconds.toFixed(0)}` : seconds.toFixed(0)
+          seconds < 9 ? `0${seconds.toFixed(0)}` : seconds.toFixed(0)
         }`
       );
     } else {
