@@ -12,6 +12,7 @@ const CustomHeader = ({ subpage, children }: Props) => {
       <Head>
         <title>Cutify{subpage ? ` - ${subpage}` : ""}</title>
         <meta name={"author"} content={"Tomasz Bortacki"} />
+        <link rel="icon" type="image/png" href="/favicon.png" />
       </Head>
       {children}
     </>
