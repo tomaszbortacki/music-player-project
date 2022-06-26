@@ -35,7 +35,7 @@ const Volume = () => {
         className={styles.volume__progress}
         type={"range"}
         min={0.01}
-        step={0.01}
+        step={0.001}
         max={1}
         value={volume}
         onChange={(e) => changeVolume(Number(e.target.value))}
