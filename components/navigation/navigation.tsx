@@ -15,7 +15,7 @@ const Navigation = ({ id_user }: Props) => {
         <section className={styles.navigation__wrapper}>
           <Link href={"/"}>
             <a title={"Cutify"}>
-              <Logo type={"small"} />
+              <Logo type={"small"} relative={true} />
             </a>
           </Link>
           <section className={styles.navigation__actions}>

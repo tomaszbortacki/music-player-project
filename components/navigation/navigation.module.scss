@@ -11,14 +11,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 0;
+    padding: 8px 0;
 
     a {
       display: inline-block;
+      line-height: 100%;
     }
   }
 
   &__actions {
+    height: 24px;
     > a:not(:last-child) {
       margin-right: 8px;
     }
