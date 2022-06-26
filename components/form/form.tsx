@@ -61,6 +61,9 @@ const Form = ({
     <form onSubmit={handleSubmit(primarySubmit)} className={styles.form}>
       {formFields.map((field, key) => (
         <label key={key} className={styles.form__group}>
+          {field.type === "file" && (
+            <span className={styles.form__group__label}>{field.label}</span>
+          )}
           <input
             className={`${styles.form__input} ${
               errors[field.type] ? styles.form__input__error : ""

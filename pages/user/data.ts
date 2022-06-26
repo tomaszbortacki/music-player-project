@@ -74,12 +74,12 @@ export const ADMIN_ADD_SONG_FIELDS: Fields = [
     },
   },
   {
-    label: "Miniature",
+    label: "Miniature ( jpg|png|webp|gif )",
     name: "miniature",
     type: "file",
   },
   {
-    label: "Song",
+    label: "Song ( mp3|avi )",
     name: "song",
     type: "file",
     rules: {

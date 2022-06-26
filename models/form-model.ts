@@ -5,7 +5,7 @@ export type Submit = (data: Data) => Promise<void>;
 
 export type Fields = Array<{
   name: string;
-  type: string;
+  type: "text" | "file" | "password" | "date";
   label?: string;
   rules?: RegisterOptions;
 }>;
