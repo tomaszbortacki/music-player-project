@@ -1,14 +1,17 @@
 import styles from "./search.module.scss";
 import debounce from "lodash.debounce";
+import { useMemo } from "react";
 
 interface Props {
   searchSong: (value: string) => void;
 }
 
 const Search = ({ searchSong }: Props) => {
-  const search = debounce((value: string) => {
-    searchSong(value);
-  }, 500);
+  const search = useMemo(() => {
+    return debounce((value: string) => {
+      searchSong(value);
+    }, 500);
+  }, []);
 
   return (
     <section className={styles.search}>
