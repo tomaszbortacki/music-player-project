@@ -39,14 +39,9 @@ const Song = ({ song, closeButton }: Props) => {
       }
 
       const minutes = Math.floor((duration - progress) / 60);
-      let seconds =
-        duration - progress - Math.floor((duration - progress) / 60) * 60;
+      const seconds = Math.floor((duration - progress) % 60);
 
-      setTime(
-        `${minutes}:${
-          seconds < 9 ? `0${seconds.toFixed(0)}` : seconds.toFixed(0)
-        }`
-      );
+      setTime(`${minutes}:${seconds.toString().padStart(2, "0")}`);
     } else {
       setTime(undefined);
     }
