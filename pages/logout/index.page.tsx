@@ -1,6 +1,8 @@
 import { withSessionSsr } from "@database/session";
 
-const Logout = () => {};
+const Logout = () => {
+  return null;
+};
 
 export const getServerSideProps = withSessionSsr(async ({ req, res }) => {
   req.session.destroy();
