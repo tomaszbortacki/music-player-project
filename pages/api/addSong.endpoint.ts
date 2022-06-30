@@ -33,6 +33,10 @@ export default withSessionRoute(async function handler(
         return res.status(500).send(DICTIONARY.BASIC_ERROR);
       }
 
+      if (!files.song.originalFilename) {
+        return res.status(500).send(DICTIONARY.BASIC_ERROR);
+      }
+
       if (Array.isArray(files.miniature)) {
         files.miniature = files.miniature[0];
       }
@@ -45,8 +49,9 @@ export default withSessionRoute(async function handler(
         return res.status(500).send(DICTIONARY.FILE_TYPE_ERROR);
       }
 
+      const songExtension = files.song.originalFilename.split(".");
       const songName = `${files.song.newFilename}.${
-        files.song.originalFilename?.split(".")[1]
+        songExtension[songExtension.length - 1]
       }`;
 
       const existing = await Song.findOne({
@@ -58,32 +63,32 @@ export default withSessionRoute(async function handler(
         return res.status(400).send("This song already exists");
       }
 
-      let id_miniature = "default";
-      let newImage = false;
+      let miniatureId = "default";
+      let miniatureName = "";
 
       if (
         files.miniature?.originalFilename &&
         files.miniature.originalFilename.length
       ) {
-        const [miniature, created] = await Miniature.findOrCreate({
-          where: {
-            path: `/miniatures/${files.miniature.originalFilename}`,
-          },
-          defaults: {
-            id_miniature: v4(),
-            path: `/miniatures/${files.miniature.originalFilename}`,
-          },
+        const miniatureExtension = files.miniature.originalFilename?.split(".");
+
+        miniatureName = `${files.miniature.newFilename}.${
+          miniatureExtension[miniatureExtension.length - 1]
+        }`;
+
+        const miniature = await Miniature.create({
+          id_miniature: v4(),
+          path: `/miniatures/${miniatureName}`,
         });
 
-        id_miniature = miniature.id_miniature;
-        newImage = created;
+        miniatureId = miniature.id_miniature;
       }
 
       await Song.create({
         id_song: v4(),
         title: (fields.title as string).trim(),
         path: `/songs/${songName}`,
-        id_miniature,
+        id_miniature: miniatureId,
       });
 
       const songData = await readFile(files.song.filepath);
@@ -91,11 +96,11 @@ export default withSessionRoute(async function handler(
 
       await writeFile(path, songData);
 
-      if (newImage) {
+      if (miniatureId !== "default") {
         const miniatureData = await readFile(files.miniature.filepath);
-        const path = `./public/miniatures/${files.miniature.originalFilename}`;
+        const miniaturePath = `./public/miniatures/${miniatureName}`;
 
-        await writeFile(path, miniatureData);
+        await writeFile(miniaturePath, miniatureData);
       }
 
       return res.status(200).send(DICTIONARY.SONG_ADDED_SUCCESSFULLY);
